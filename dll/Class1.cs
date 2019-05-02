@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace dll
 {
+    public class Library
+    {
+        static void Main(string[] args)
+        {
+
+
+
+        }
+    }
+    
+
     public class Class1
     {
     }
