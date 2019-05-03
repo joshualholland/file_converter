@@ -17,12 +17,38 @@ namespace file_converter
     {
         static void Main(string[] args)
         {
-            docToPdf word = new docToPdf();
-            word.Convert();
-            imagesToPdf image = new imagesToPdf();
-            image.Convert();
-
+            // hard coded directory
+            string dir = "../../doc/";
+            // List of all files
+            string[] files = Directory.GetFiles(dir);
+            for (int idx = 0; idx < files.Length; idx++)
+            {
+                if (Path.GetExtension(files[idx]) == ".doc" || Path.GetExtension(files[idx]) == ".docx")
+                {
+                    ConvertDoc(files[idx]);
+                }
+                else if (Path.GetExtension(files[idx]) == ".jpg" || Path.GetExtension(files[idx]) == ".png" || Path.GetExtension(files[idx]) == ".jpeg")
+                {
+                    imagesToPdf image = new imagesToPdf();
+                    image.Convert(files[idx]);
+                } else
+                {
+                    Console.WriteLine(files[idx]);
+                    Console.ReadKey();
+                }
+            }
+       
             MergePdfs();
+        }
+
+        static void ConvertDoc(string filename)
+        {
+            // Convert doc to pdf
+            Document doc = new Document(filename);
+            // removes .doc extension
+            string newFile = Path.ChangeExtension(filename, ".pdf");
+            // Saves in same folder
+            doc.Save(newFile.ToString(), SaveFormat.Pdf);
         }
 
         static void MergePdfs()
@@ -64,28 +90,16 @@ namespace file_converter
         
     }
 
-    class docToPdf
-    {
-        public void Convert()
-        {
-            // Convert doc to pdf
-            string path = "../../doc/";
-            string fileName1 = path + "resume.docx";
-            Document doc = new Document(fileName1);
-            doc.Save(path + "DocumentToPdf.pdf", SaveFormat.Pdf);
-        }
-    }
-
     class imagesToPdf
     {
-        public void Convert()
+        public void Convert(string filename)
         {
-            string path = "../../doc/";
-            string filename2 = path + "Rough Draft.png";
+            /*string path = "../../doc/";
+            string filenameImg = path + filename;*/
             PdfDocument document = new PdfDocument();
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
-            DrawImage(gfx, filename2, 0, 0, 50, 50);
+            DrawImage(gfx, filename, 0, 0, 50, 50);
             document.Save("../../doc/png.pdf");
 
         }
