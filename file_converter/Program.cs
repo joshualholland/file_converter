@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Collections;
-using Aspose.Words;
-using PdfSharp;
+using System.Web;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
+using GroupDocs.Conversion;
+using GroupDocs.Conversion.Config;
+using GroupDocs.Conversion.Handler;
+
 
 namespace file_converter
 {
@@ -29,9 +32,12 @@ namespace file_converter
                 }
                 else if (Path.GetExtension(files[idx]) == ".jpg" || Path.GetExtension(files[idx]) == ".png" || Path.GetExtension(files[idx]) == ".jpeg")
                 {
-                    imagesToPdf image = new imagesToPdf();
-                    image.Convert(files[idx]);
-                } else
+                    ConvertImg(files[idx]);
+                } else if (Path.GetExtension(files[idx]) == ".xls" || Path.GetExtension(files[idx]) == ".xlsx")
+                {
+                    ConvertXls(files[idx]);
+                }
+                else
                 {
                     Console.WriteLine(files[idx]);
                     Console.ReadKey();
@@ -43,12 +49,44 @@ namespace file_converter
 
         static void ConvertDoc(string filename)
         {
-            // Convert doc to pdf
-            Document doc = new Document(filename);
-            // removes .doc extension
-            string newFile = Path.ChangeExtension(filename, ".pdf");
-            // Saves in same folder
-            doc.Save(newFile.ToString(), SaveFormat.Pdf);
+            var conversionConfig = new ConversionConfig { StoragePath = filename, OutputPath = Path.GetDirectoryName(filename) };
+            var conversionHandler = new ConversionHandler(conversionConfig);
+            var saveOptions = new GroupDocs.Conversion.Options.Save.PdfSaveOptions();
+            var convertedDocumentPath = conversionHandler.Convert(filename, saveOptions);
+            string changeName = Path.GetFileNameWithoutExtension(filename) + "word";
+            convertedDocumentPath.Save(Path.ChangeExtension(changeName, ".pdf"));
+
+        }
+
+        static void ConvertImg(string filename)
+        {
+            // Create new pdf document
+            PdfSharp.Pdf.PdfDocument document = new PdfSharp.Pdf.PdfDocument();
+            // Add image to page of pdf
+            PdfPage page = document.AddPage();
+            // Get xobject from image
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            DrawImage(gfx, filename, 0, 0, 50, 50);
+            // Save pdf image in indiv folder
+            document.Save("../../doc/png.pdf");
+        }
+
+        private static void DrawImage(XGraphics gfx, string jpegPath, int x, int y, int width, int height)
+        {
+            // Put xobject on page 
+            XImage image = XImage.FromFile(jpegPath);
+            gfx.DrawImage(image, x, y, width, height);
+
+        }
+
+        static void ConvertXls(string filename)
+        {
+            var conversionConfig = new ConversionConfig { StoragePath = filename, OutputPath = Path.GetDirectoryName(filename) };
+            var conversionHandler = new ConversionHandler(conversionConfig);
+            var saveOptions = new GroupDocs.Conversion.Options.Save.PdfSaveOptions();
+            var convertedDocumentPath = conversionHandler.Convert(filename, saveOptions);
+
+            convertedDocumentPath.Save(Path.GetFileNameWithoutExtension(filename) + ".pdf");
         }
 
         static void MergePdfs()
@@ -67,12 +105,12 @@ namespace file_converter
                 } 
             }
             // Creates new Pdf
-            PdfDocument combinedPdf = new PdfDocument();
+            PdfSharp.Pdf.PdfDocument combinedPdf = new PdfSharp.Pdf.PdfDocument();
             // Iterates through files
             foreach (string pdf in pdfs)
             {
                 // Open document to import pages
-                PdfDocument individualPdfs = PdfReader.Open(pdf, PdfDocumentOpenMode.Import);
+                PdfSharp.Pdf.PdfDocument individualPdfs = PdfReader.Open(pdf, PdfDocumentOpenMode.Import);
 
                 // Iterate through pages
                 int count = individualPdfs.PageCount;
@@ -88,27 +126,5 @@ namespace file_converter
             combinedPdf.Save(sourceDir + filename);
         }
         
-    }
-
-    class imagesToPdf
-    {
-        public void Convert(string filename)
-        {
-            /*string path = "../../doc/";
-            string filenameImg = path + filename;*/
-            PdfDocument document = new PdfDocument();
-            PdfPage page = document.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-            DrawImage(gfx, filename, 0, 0, 50, 50);
-            document.Save("../../doc/png.pdf");
-
-        }
-
-        private void DrawImage(XGraphics gfx, string jpegPath, int x, int y, int width, int height)
-        {
-            // Gets Xobject from image 
-            XImage image = XImage.FromFile(jpegPath);
-            gfx.DrawImage(image, x, y, width, height);
-        }
     }
 }
