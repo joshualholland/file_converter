@@ -49,11 +49,16 @@ namespace file_converter
 
         static void ConvertDoc(string filename)
         {
+            // Where to receive and save file
             var conversionConfig = new ConversionConfig { StoragePath = filename, OutputPath = Path.GetDirectoryName(filename) };
             var conversionHandler = new ConversionHandler(conversionConfig);
+            // Saves new file as pdf
             var saveOptions = new GroupDocs.Conversion.Options.Save.PdfSaveOptions();
+            // Converts existing doc to pdf
             var convertedDocumentPath = conversionHandler.Convert(filename, saveOptions);
+            // change name so that xls and doc files of the same name can both be saved
             string changeName = Path.GetFileNameWithoutExtension(filename) + "word";
+            // save new pdf with ".pdf" ext
             convertedDocumentPath.Save(Path.ChangeExtension(changeName, ".pdf"));
 
         }
@@ -64,11 +69,32 @@ namespace file_converter
             PdfSharp.Pdf.PdfDocument document = new PdfSharp.Pdf.PdfDocument();
             // Add image to page of pdf
             PdfPage page = document.AddPage();
-            // Get xobject from image
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-            DrawImage(gfx, filename, 0, 0, 50, 50);
+            // Put xobject on page (signature info)
+            XGraphics info = XGraphics.FromPdfPage(page);
+            // Set font and size
+            XFont font = new XFont("Arial", 14, XFontStyle.Regular);
+            // Put Signatures title on page
+            info.DrawString("Signatures", font, XBrushes.Black, new XRect(0, 20, page.Width.Point, 0), XStringFormats.TopCenter);
+            // Put compiled by signature form on page
+            info.DrawString("Conversation #  ", font, XBrushes.Black, new XRect(0, 80, page.Width.Point, 0), XStringFormats.BaseLineLeft);
+            info.DrawString("Compiled by John Smith on (date) ", font, XBrushes.Black, new XRect(0, 105, page.Width.Point, 0), XStringFormats.BaseLineLeft);
+            info.DrawString("Signed:  ", font, XBrushes.Black, new XRect(0, 125, page.Width.Point, 0), XStringFormats.BaseLineLeft);
+            // Put Reviewed by signature form on page
+            info.DrawString("Conversation #  ", font, XBrushes.Black, new XRect(0, 185, page.Width.Point, 0), XStringFormats.BaseLineLeft);
+            info.DrawString("Reviewed by Ted Cooper on (date) ", font, XBrushes.Black, new XRect(0, 210, page.Width.Point, 0), XStringFormats.BaseLineLeft);
+            info.DrawString("Signed:  ", font, XBrushes.Black, new XRect(0, 235, page.Width.Point, 0), XStringFormats.BaseLineLeft);
+            if (filename.Contains("compiled"))
+            {
+                // png for compiled by signature
+                DrawImage(info, filename, 60, 115, 40, 40);
+            } else if (filename.Contains("reviewed"))
+            {
+                // png for reviewed by signature
+                DrawImage(info, filename, 60, 225, 40, 40);
+            }
+            
             // Save pdf image in indiv folder
-            document.Save("../../doc/png.pdf");
+            document.Save("../../doc/z_signature.pdf");
         }
 
         private static void DrawImage(XGraphics gfx, string jpegPath, int x, int y, int width, int height)
