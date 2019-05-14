@@ -69,5 +69,11 @@
     <Folder Include="doc\" />
     <Folder Include="pdf\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PDF_DLL\PDF_DLL.csproj">
+      <Project>{e8bcca04-0118-4619-a316-66045a9d796f}</Project>
+      <Name>PDF_DLL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

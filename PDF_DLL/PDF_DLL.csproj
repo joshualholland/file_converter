@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E8BCCA04-0118-4619-A316-66045A9D796F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PDF_DLL</RootNamespace>
+    <AssemblyName>PDF_DLL</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GroupDocs.Conversion, Version=19.4.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\packages\GroupDocs.Conversion.19.4.0\lib\GroupDocs.Conversion.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp">
+      <HintPath>..\file_converter\bin\Debug\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fonts\OpenSans\BoldItalic\OpenSans-BoldItalic.eot" />
+    <None Include="fonts\OpenSans\BoldItalic\OpenSans-BoldItalic.ttf" />
+    <None Include="fonts\OpenSans\BoldItalic\OpenSans-BoldItalic.woff" />
+    <None Include="fonts\OpenSans\Bold\OpenSans-Bold.eot" />
+    <None Include="fonts\OpenSans\Bold\OpenSans-Bold.ttf" />
+    <None Include="fonts\OpenSans\Bold\OpenSans-Bold.woff" />
+    <None Include="fonts\OpenSans\ExtraBoldItalic\OpenSans-ExtraBoldItalic.eot" />
+    <None Include="fonts\OpenSans\ExtraBoldItalic\OpenSans-ExtraBoldItalic.ttf" />
+    <None Include="fonts\OpenSans\ExtraBoldItalic\OpenSans-ExtraBoldItalic.woff" />
+    <None Include="fonts\OpenSans\ExtraBold\OpenSans-ExtraBold.eot" />
+    <None Include="fonts\OpenSans\ExtraBold\OpenSans-ExtraBold.ttf" />
+    <None Include="fonts\OpenSans\ExtraBold\OpenSans-ExtraBold.woff" />
+    <None Include="fonts\OpenSans\Italic\OpenSans-Italic.eot" />
+    <None Include="fonts\OpenSans\Italic\OpenSans-Italic.ttf" />
+    <None Include="fonts\OpenSans\Italic\OpenSans-Italic.woff" />
+    <None Include="fonts\OpenSans\LightItalic\OpenSans-LightItalic.eot" />
+    <None Include="fonts\OpenSans\LightItalic\OpenSans-LightItalic.ttf" />
+    <None Include="fonts\OpenSans\LightItalic\OpenSans-LightItalic.woff" />
+    <None Include="fonts\OpenSans\Light\OpenSans-Light.eot" />
+    <None Include="fonts\OpenSans\Light\OpenSans-Light.ttf" />
+    <None Include="fonts\OpenSans\Light\OpenSans-Light.woff" />
+    <None Include="fonts\OpenSans\Regular\OpenSans-Regular.eot" />
+    <None Include="fonts\OpenSans\Regular\OpenSans-Regular.ttf" />
+    <None Include="fonts\OpenSans\Regular\OpenSans-Regular.woff" />
+    <None Include="fonts\OpenSans\SemiboldItalic\OpenSans-SemiboldItalic.eot" />
+    <None Include="fonts\OpenSans\SemiboldItalic\OpenSans-SemiboldItalic.ttf" />
+    <None Include="fonts\OpenSans\SemiboldItalic\OpenSans-SemiboldItalic.woff" />
+    <None Include="fonts\OpenSans\Semibold\OpenSans-Semibold.eot" />
+    <None Include="fonts\OpenSans\Semibold\OpenSans-Semibold.ttf" />
+    <None Include="fonts\OpenSans\Semibold\OpenSans-Semibold.woff" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\OpenSans\BoldItalic\OpenSans-BoldItalic.svg" />
+    <Content Include="fonts\OpenSans\Bold\OpenSans-Bold.svg" />
+    <Content Include="fonts\OpenSans\ExtraBoldItalic\OpenSans-ExtraBoldItalic.svg" />
+    <Content Include="fonts\OpenSans\ExtraBold\OpenSans-ExtraBold.svg" />
+    <Content Include="fonts\OpenSans\Italic\OpenSans-Italic.svg" />
+    <Content Include="fonts\OpenSans\LightItalic\OpenSans-LightItalic.svg" />
+    <Content Include="fonts\OpenSans\Light\OpenSans-Light.svg" />
+    <Content Include="fonts\OpenSans\Regular\OpenSans-Regular.svg" />
+    <Content Include="fonts\OpenSans\SemiboldItalic\OpenSans-SemiboldItalic.svg" />
+    <Content Include="fonts\OpenSans\Semibold\OpenSans-Semibold.svg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
